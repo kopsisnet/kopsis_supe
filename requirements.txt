@@ -1,4 +1,11 @@
-Django==3.9
+Django==5.0.2
+python-dotenv==1.0.0
+supabase==1.0.3
+psycopg2-binary==2.9.7
+gunicorn==21.2.0
+whitenoise==6.5.0
+dj-database-url==2.1.0
+setuptools>=69.0.2=3.9
 python-dotenv==1.0.0
 supabase==1.0.3
 psycopg2-binary==2.9.7
