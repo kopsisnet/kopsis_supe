@@ -38,7 +38,7 @@ myenv/
 # VS Code
 .vscode/
 *.code-workspace
-
+git_auto_push.sh
 # PyCharm
 .idea/
 
