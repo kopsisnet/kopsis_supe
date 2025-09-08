@@ -25,12 +25,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-pbfu+q49iebfcpf_03_^t&&$z@i1(qrq+q^v8z2spr=iifk%1y'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-pbfu+q49iebfcpf_03_^t&&$z@i1(qrq+q^v8z2spr=iifk%1y')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']  # Daha sonra Render domain'inize göre güncelleyebilirsiniz
+CSRF_TRUSTED_ORIGINS = [os.getenv('RENDER_EXTERNAL_URL', 'https://*.onrender.com')]
 
 
 # Application definition
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
