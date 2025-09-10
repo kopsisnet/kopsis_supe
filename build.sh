@@ -17,9 +17,14 @@ pip install -r requirements.txt
 echo "Creating static directory..."
 mkdir -p staticfiles
 
+
 # Statik dosyaları topla
 echo "Collecting static files..."
 python manage.py collectstatic --noinput --clear
+
+# Veritabanı migration'larını oluştur
+echo "Making migrations..."
+python manage.py makemigrations
 
 # Veritabanı migration'larını çalıştır
 echo "Running database migrations..."

@@ -5,6 +5,9 @@ class PersonelForm(forms.ModelForm):
     class Meta:
         model = Personel
         fields = '__all__'
+        widgets = {
+            'dogum_tarihi': forms.DateInput(attrs={'type': 'date'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

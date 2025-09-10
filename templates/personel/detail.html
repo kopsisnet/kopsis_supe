@@ -1,17 +1,39 @@
 {% extends 'base.html' %}
 {% block content %}
 {% if user.is_authenticated %}
-  <h2 class="text-2xl font-bold mb-4">Personel Detayı</h2>
-  <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
-      <ul class="space-y-2">
-          <li><strong>Ad:</strong> {{ personel.ad }}</li>
-          <li><strong>Soyad:</strong> {{ personel.soyad }}</li>
-          <li><strong>Pozisyon:</strong> {{ personel.pozisyon }}</li>
-          <li><strong>Telefon:</strong> {{ personel.telefon }}</li>
-          <li><strong>Email:</strong> {{ personel.email }}</li>
-          <li><strong>Aktif:</strong> {{ personel.aktif|yesno:"Evet,Hayır" }}</li>
-      </ul>
-      <a href="{% url 'personel_update' personel.pk %}" class="mt-4 inline-block bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Düzenle</a>
+  <div class="max-w-2xl mx-auto bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+    <h2 class="text-2xl font-bold mb-6 text-center">Personel Detayı</h2>
+
+    <!-- Avatar -->
+    {% if personel.avatar %}
+      <div class="flex justify-center mb-4">
+        <img src="{{ personel.avatar.url }}" alt="Avatar" class="w-24 h-24 rounded-full object-cover border-2 border-blue-500">
+      </div>
+    {% endif %}
+
+    <!-- Bilgiler -->
+    <ul class="space-y-2 text-sm">
+      <li><strong>Ad:</strong> {{ personel.ad }}</li>
+      <li><strong>Soyad:</strong> {{ personel.soyad }}</li>
+      <li><strong>Pozisyon:</strong> {{ personel.pozisyon }}</li>
+      <li><strong>Departman:</strong> {{ personel.departman }}</li>
+      <li><strong>Doğum Tarihi:</strong> {{ personel.dogum_tarihi|date:"d.m.Y" }}</li>
+      <li><strong>Telefon:</strong> {{ personel.telefon }}</li>
+      <li><strong>Email:</strong> {{ personel.email }}</li>
+      <li><strong>Aktif:</strong> {{ personel.aktif|yesno:"Evet,Hayır" }}</li>
+    </ul>
+
+    <!-- QR Kod -->
+    <div class="mt-6 flex justify-center">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?data={{ request.build_absolute_uri }}" alt="QR Kod" class="w-24 h-24" />
+    </div>
+
+    <!-- Butonlar -->
+    <div class="mt-6 flex justify-center gap-4">
+      <a href="{% url 'personel_update' personel.pk %}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Düzenle</a>
+      <a href="{% url 'personel_pdf' personel.pk %}" class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-900">PDF İndir</a>
+      <a href="{% url 'personel_list' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Listeye Dön</a>
+    </div>
   </div>
 {% else %}
   <p class="text-red-500">Bu sayfayı görüntülemek için giriş yapmalısınız.</p>
