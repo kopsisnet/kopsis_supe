@@ -12,7 +12,12 @@ class UserRegistrationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            css_class = 'form-control'
+            base_class = (
+                "w-full px-3 py-2 border rounded shadow-sm focus:outline-none "
+                "focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            )
             if self.errors.get(field_name):
-                css_class += ' is-invalid'
-            field.widget.attrs['class'] = css_class
+                base_class += " border-red-500"
+            else:
+                base_class += " border-gray-300"
+            field.widget.attrs['class'] = base_class

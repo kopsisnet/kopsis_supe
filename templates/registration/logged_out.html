@@ -1,19 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="card-title text-center">Logged Out</h2>
-                    <p class="text-center">You have been successfully logged out.</p>
-                    <div class="text-center">
-                        <a href="{% url 'login' %}" class="btn btn-primary">Login Again</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="flex justify-center items-center h-screen">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded shadow w-full max-w-md text-center">
+        <h2 class="text-2xl font-bold mb-2">Çıkış Yapıldı</h2>
+        <p class="mb-4">Başarıyla çıkış yaptınız.</p>
+        <a href="{% url 'login' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Tekrar Giriş Yap</a>
     </div>
 </div>
-{% endblock %} 
+{% endblock %}

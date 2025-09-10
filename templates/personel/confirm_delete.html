@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+  <h2 class="text-xl font-bold mb-4">Silme Onayı</h2>
+  <p>Personel <strong>{{ personel.ad }} {{ personel.soyad }}</strong> silinsin mi?</p>
+  <form method="post" class="mt-4">
+      {% csrf_token %}
+      <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Evet, Sil</button>
+      <a href="{% url 'personel_list' %}" class="ml-4 text-blue-600 hover:underline">Vazgeç</a>
+  </form>
+{% else %}
+  <p class="text-red-500">Bu işlemi yapmak için giriş yapmalısınız.</p>
+{% endif %}
+{% endblock %}

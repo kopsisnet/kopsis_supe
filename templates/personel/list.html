@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+  <h2 class="text-2xl font-bold mb-4">Personel Listesi</h2>
+
+  <!-- Arama ve filtre -->
+  <form method="get" class="mb-4 flex flex-wrap gap-4 items-center">
+      <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Ad veya pozisyon ara"
+             class="w-full md:w-1/3 px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500" />
+      <select name="aktif" class="px-3 py-2 border rounded">
+          <option value="">Tümü</option>
+          <option value="1" {% if request.GET.aktif == "1" %}selected{% endif %}>Aktif</option>
+          <option value="0" {% if request.GET.aktif == "0" %}selected{% endif %}>Pasif</option>
+      </select>
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Filtrele</button>
+  </form>
+
+  <!-- Yeni ekle butonu -->
+  <button data-modal-target="personelModal" data-modal-toggle="personelModal"
+          class="bg-green-600 text-white px-4 py-2 rounded mb-4">
+      Yeni Personel Ekle
+  </button>
+
+  <!-- Personel tablosu -->
+  <table class="w-full table-auto border">
+      <thead>
+          <tr class="bg-gray-200 dark:bg-gray-700">
+              <th class="px-4 py-2">Ad Soyad</th>
+              <th class="px-4 py-2">Pozisyon</th>
+              <th class="px-4 py-2">QR</th>
+              <th class="px-4 py-2">İşlem</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for p in personeller %}
+          <tr class="border-b dark:border-gray-600">
+              <td class="px-4 py-2">{{ p.ad }} {{ p.soyad }}</td>
+              <td class="px-4 py-2">{{ p.pozisyon }}</td>
+              <td class="px-4 py-2">
+                  <img src="https://api.qrserver.com/v1/create-qr-code/?data={{ request.build_absolute_uri|slice:":-1" }}{{ p.pk }}" alt="QR" class="w-10 h-10" />
+              </td>
+              <td class="px-4 py-2 space-x-2">
+                  <a href="{% url 'personel_detail' p.pk %}" class="text-blue-600 hover:underline">Detay</a>
+                  <a href="{% url 'personel_update' p.pk %}" class="text-yellow-600 hover:underline">Düzenle</a>
+                  <a href="{% url 'personel_delete' p.pk %}" class="text-red-600 hover:underline">Sil</a>
+              </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="4" class="text-center py-4 text-gray-500">Kayıt bulunamadı.</td></tr>
+          {% endfor %}
+      </tbody>
+  </table>
+
+  <!-- Modal form (Flowbite) -->
+  <div id="personelModal" tabindex="-1" class="hidden fixed top-0 left-0 right-0 z-50 p-4 overflow-y-auto">
+    <div class="relative bg-white dark:bg-gray-800 rounded-lg shadow max-w-md mx-auto">
+      <div class="p-6">
+        <h3 class="text-xl font-bold mb-4">Yeni Personel</h3>
+        <form method="post" action="{% url 'personel_create' %}">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="mb-4">
+              <label class="block text-sm font-medium mb-1">{{ field.label }}</label>
+              {{ field }}
+              {% if field.errors %}
+                <p class="text-red-500 text-sm">{{ field.errors.0 }}</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+          <div class="flex justify-end gap-2">
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Kaydet</button>
+            <button type="button" data-modal-hide="personelModal" class="text-gray-600">İptal</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% else %}
+  <p class="text-red-500">Bu sayfayı görüntülemek için giriş yapmalısınız.</p>
+{% endif %}
+{% endblock %}

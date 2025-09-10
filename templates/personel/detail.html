@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+  <h2 class="text-2xl font-bold mb-4">Personel Detayı</h2>
+  <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+      <ul class="space-y-2">
+          <li><strong>Ad:</strong> {{ personel.ad }}</li>
+          <li><strong>Soyad:</strong> {{ personel.soyad }}</li>
+          <li><strong>Pozisyon:</strong> {{ personel.pozisyon }}</li>
+          <li><strong>Telefon:</strong> {{ personel.telefon }}</li>
+          <li><strong>Email:</strong> {{ personel.email }}</li>
+          <li><strong>Aktif:</strong> {{ personel.aktif|yesno:"Evet,Hayır" }}</li>
+      </ul>
+      <a href="{% url 'personel_update' personel.pk %}" class="mt-4 inline-block bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Düzenle</a>
+  </div>
+{% else %}
+  <p class="text-red-500">Bu sayfayı görüntülemek için giriş yapmalısınız.</p>
+{% endif %}
+{% endblock %}
