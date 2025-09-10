@@ -148,12 +148,12 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Medya dosyaları (avatar, PDF, vs.)
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-AWS_S3_ENDPOINT_URL = 'https://pecfqgxjmxvsyyxxblpt.storage.supabase.co/storage/v1/s3'
-AWS_ACCESS_KEY_ID = 'c5efbf15d234f6c37a47d1163ec7f2d7'  # Supabase panelinden oluşturulacak
-AWS_SECRET_ACCESS_KEY = '918a8ef0b4a1d2687a2af337dda97260ec0bc9d8f61ef34c65e48ddbf0d0f51f'
-AWS_STORAGE_BUCKET_NAME = 'media'  # Supabase'deki bucket adı
-AWS_S3_REGION_NAME = 'eu-north-1'
-AWS_QUERYSTRING_AUTH = False  # Public erişim için
+AWS_S3_ENDPOINT_URL = os.getenv('AWS_S3_ENDPOINT_URL')
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
+AWS_QUERYSTRING_AUTH = os.getenv('AWS_QUERYSTRING_AUTH', 'False') == 'True'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
