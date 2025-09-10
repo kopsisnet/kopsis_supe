@@ -2,18 +2,37 @@
 {% block content %}
 {% if user.is_authenticated %}
   <h2 class="text-2xl font-bold mb-4">{{ baslik }}</h2>
-  <form method="post" class="space-y-4">
+
+  <!-- Dosya yükleme için enctype eklenmeli -->
+  <form method="post" enctype="multipart/form-data" class="space-y-6">
       {% csrf_token %}
       {% for field in form %}
           <div>
-              <label class="block text-sm font-medium mb-1">{{ field.label }}</label>
-              {{ field }}
+              <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                  {{ field.label }}
+              </label>
+
+              <!-- Avatar alanı için özel stil -->
+              {% if field.name == "avatar" %}
+                  <div class="flex items-center gap-4">
+                      {{ field }}
+                      {% if form.instance.avatar %}
+                          <img src="{{ form.instance.avatar.url }}" alt="Avatar" class="w-16 h-16 rounded-full object-cover border">
+                      {% endif %}
+                  </div>
+              {% else %}
+                  {{ field }}
+              {% endif %}
+
               {% if field.errors %}
-                  <p class="text-red-500 text-sm">{{ field.errors.0 }}</p>
+                  <p class="text-red-500 text-sm mt-1">{{ field.errors.0 }}</p>
               {% endif %}
           </div>
       {% endfor %}
-      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Kaydet</button>
+
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+          Kaydet
+      </button>
   </form>
 {% else %}
   <p class="text-red-500">Bu işlemi yapmak için giriş yapmalısınız.</p>

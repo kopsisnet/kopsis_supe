@@ -25,7 +25,7 @@ def personel_detail(request, pk):
 
 @login_required
 def personel_create(request):
-    form = PersonelForm(request.POST or None)
+    form = PersonelForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
         messages.success(request, "Yeni personel başarıyla eklendi.")
@@ -35,7 +35,7 @@ def personel_create(request):
 @login_required
 def personel_update(request, pk):
     personel = get_object_or_404(Personel, pk=pk)
-    form = PersonelForm(request.POST or None, instance=personel)
+    form = PersonelForm(request.POST or None, request.FILES or None, instance=personel)
     if form.is_valid():
         form.save()
         messages.success(request, "Personel bilgileri güncellendi.")
