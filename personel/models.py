@@ -11,5 +11,10 @@ class Personel(models.Model):
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
     aktif = models.BooleanField(default=True)
 
+    @property
+    def avatar_public_url(self):
+        if self.avatar:
+            return f"https://pecfqgxjmxvsyyxxblpt.supabase.co/storage/v1/object/public/media/{self.avatar.name}"
+        return None
     def __str__(self):
         return f"{self.ad} {self.soyad}"
