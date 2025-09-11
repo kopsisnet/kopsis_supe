@@ -145,7 +145,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 # Medya dosyaları (avatar, PDF, vs.)
-STORAGES = {
+STORAGES = { 
     "default": {
         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
         "OPTIONS": {
