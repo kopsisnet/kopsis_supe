@@ -1,0 +1,105 @@
+Elbette KOPSİS! Paylaştığın kod yapısı, Supabase entegrasyonu, Tailwind/Flowbite arayüzü ve build.sh script’i temel alınarak sade, teknik ve açık kaynak katkısına uygun bir başlangıç README taslağı hazırladım:
+
+---
+
+## 📦 Kopsis Supe
+
+Modern, mobil uyumlu ve Supabase destekli bir personel yönetim sistemi. Django 5.2.6 ile geliştirilmiş bu proje; QR kodlu detay sayfaları, tema geçişi, toast bildirimleri ve cloud storage entegrasyonu gibi gelişmiş özellikler sunar.
+
+---
+
+### 🚀 Özellikler
+
+- 🔐 Giriş yapmış kullanıcılar için erişim kontrollü CRUD işlemleri
+- 🎨 Tailwind CSS + Flowbite ile mobil uyumlu, karanlık/aydınlık tema desteği
+- 📦 Supabase Storage ile kalıcı medya dosyası yönetimi (avatar, PDF vs.)
+- 📄 QR kodlu personel detay sayfası
+- 🔔 Flowbite toast bildirimleri ile işlem geri bildirimleri
+- 🧾 PDF çıktısı ve görsel modül entegrasyonu (isteğe bağlı)
+
+---
+
+### ⚙️ Kurulum
+
+```bash
+git clone https://github.com/kopsisnet/kopsis_supe.git
+cd kopsis_supe
+python -m venv venv
+source venv/bin/activate  # Windows için: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+---
+
+### 🔐 Ortam Değişkenleri (.env)
+
+```env
+DJANGO_SECRET_KEY=your-secret-key
+DEBUG=True
+
+DB_NAME=your-db-name
+DB_USER=your-db-user
+DB_PASSWORD=your-db-password
+DB_HOST=your-db-host
+DB_PORT=5432
+
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_KEY=your-supabase-key
+
+AWS_ACCESS_KEY_ID=your-access-key
+AWS_SECRET_ACCESS_KEY=your-secret-key
+AWS_STORAGE_BUCKET_NAME=your-bucket
+AWS_S3_ENDPOINT_URL=https://your-endpoint.supabase.co/storage/v1
+AWS_S3_REGION_NAME=your-region
+AWS_QUERYSTRING_AUTH=False
+```
+
+---
+
+### 🛠️ Build Script
+
+Projeyi otomatik olarak kurmak ve çalıştırmak için:
+
+```bash
+./build.sh
+```
+
+Bu script:
+- pip’i günceller
+- bağımlılıkları yükler
+- statik dosyaları toplar
+- veritabanı migration’larını çalıştırır
+
+---
+
+### 🧪 Geliştirici Bilgileri
+
+- Django 5.2.6
+- PostgreSQL
+- Supabase Storage (S3 protokolü)
+- Tailwind CSS + Flowbite
+- Whitenoise ile statik dosya servisi
+
+---
+
+### 📁 Dosya Yapısı
+
+```bash
+config/           # Proje ayarları
+core/             # Ana sayfa ve kullanıcı kayıt işlemleri
+personel/         # Personel CRUD ve detay modülü
+templates/        # Tüm HTML şablonları
+staticfiles/      # Toplanan statik dosyalar
+build.sh          # Otomatik kurulum scripti
+requirements.txt  # Bağımlılıklar
+```
+
+---
+
+### 📌 Katkı Sağlamak
+
+Pull request’ler ve issue’lar memnuniyetle karşılanır. Kodun sade, sürdürülebilir ve dokümante olmasına özen gösteriniz.
+
+---
+
+İstersen bu README’ye örnek ekran görüntüleri, QR kod çıktısı veya Supabase entegrasyon diyagramı da ekleyebiliriz. Devam etmek istersen görsel veya teknik bölümleri birlikte genişletebiliriz 💡

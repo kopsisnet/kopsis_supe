@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Kopsis Supe{% endblock %}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Kopsis Supe{% endblock %}</title>
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Flowbite CSS & JS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+  <!-- Flowbite -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
 
-    <!-- Tema kontrolü -->
-    <script>
+  <!-- Tema kontrolü -->
+  <script>
     if (
       localStorage.getItem('color-theme') === 'dark' ||
       (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
@@ -22,78 +23,115 @@
     } else {
       document.documentElement.classList.remove('dark');
     }
-    </script>
+  </script>
 </head>
+
 <body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
 
-    <!-- Navbar -->
-    <nav class="bg-gray-900 text-white px-4 py-3">
-        <div class="flex justify-between items-center max-w-6xl mx-auto">
-            <a href="/" class="text-xl font-bold">Kopsis Supe</a>
-            <div class="flex items-center gap-4">
-                <a href="/" class="{% if request.path == '/' %}underline{% endif %}">Ana Sayfa</a>
-                {% if user.is_authenticated %}
-                    <a href="/admin/">Yönetim</a>
-                    <span>Hoş geldin, {{ user.username }}!</span>
-                    <form method="post" action="{% url 'logout' %}">
-                        {% csrf_token %}
-                        <button type="submit" class="text-red-300 hover:text-red-500">Çıkış</button>
-                    </form>
-                {% else %}
-                    <a href="{% url 'login' %}" class="{% if request.path == '/accounts/login/' %}underline{% endif %}">Giriş</a>
-                    <a href="{% url 'register' %}" class="{% if request.path == '/accounts/register/' %}underline{% endif %}">Kayıt</a>
-                {% endif %}
-                <!-- Tema geçiş butonu -->
-                <button id="theme-toggle" type="button" class="text-white hover:text-yellow-300">🌞 / 🌙</button>
-            </div>
-        </div>
-    </nav>
+  <!-- Navbar -->
+  <nav class="bg-gray-900 text-white px-4 py-3">
+    <div class="flex justify-between items-center max-w-6xl mx-auto">
+      <a href="/" class="text-xl font-bold">Kopsis Supe</a>
+      <div class="flex items-center gap-4">
+        <a href="/" class="{% if request.path == '/' %}underline{% endif %}">Ana Sayfa</a>
+        {% if user.is_authenticated %}
+        <a href="/admin/">Yönetim</a>
+        <span>Hoş geldin, {{ user.username }}!</span>
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="text-red-300 hover:text-red-500">Çıkış</button>
+        </form>
+        {% else %}
+        <a href="{% url 'login' %}" class="{% if request.path == '/accounts/login/' %}underline{% endif %}">Giriş</a>
+        <a href="{% url 'register' %}"
+          class="{% if request.path == '/accounts/register/' %}underline{% endif %}">Kayıt</a>
+        {% endif %}
+        <!-- Tema geçiş butonu -->
+        <button id="theme-toggle" type="button" class="text-white hover:text-yellow-300">🌞 / 🌙</button>
+      </div>
+    </div>
+  </nav>
 
-    <!-- İçerik -->
-    <main class="max-w-6xl mx-auto p-4">
-        {% block content %}{% endblock %}
-    </main>
+  <!-- İçerik -->
+  <main class="max-w-6xl mx-auto p-4">
+    {% block content %}{% endblock %}
+  </main>
 
-    <!-- Footer -->
-    <footer class="text-center text-sm text-gray-500 dark:text-gray-400 py-4">
-        © 2025 Kopsis Supe
-    </footer>
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 dark:text-gray-400 py-4">
+    © 2025 Kopsis Supe
+  </footer>
 
+  <!-- Toast container -->
+  <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2"></div>
 
-    {% if messages %}
-<script>
-  {% for message in messages %}
-    showToast("{{ message|escapejs }}");
-  {% endfor %}
-</script>
-{% endif %}
-
-<script>
-function showToast(message = "İşlem tamamlandı") {
-  const toast = document.createElement("div");
-  toast.className = "fixed bottom-5 right-5 z-50 flex items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800";
-  toast.innerHTML = `
-    <div class="inline-flex items-center justify-center w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">✅</div>
-    <div class="ms-3 text-sm font-normal">${message}</div>
-    <button type="button" class="ms-auto text-gray-400 hover:text-gray-900 dark:hover:text-white" onclick="this.parentElement.remove()">✖️</button>
-  `;
-  document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 4000);
-}
-</script>
-    <!-- Tema geçiş JS -->
-    <script>
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    themeToggleBtn.addEventListener('click', () => {
-        const html = document.documentElement;
-        if (html.classList.contains('dark')) {
-            html.classList.remove('dark');
-            localStorage.setItem('color-theme', 'light');
-        } else {
-            html.classList.add('dark');
-            localStorage.setItem('color-theme', 'dark');
-        }
+  <!-- Scriptler -->
+  <script>
+    // Tema geçişi
+    document.addEventListener("DOMContentLoaded", () => {
+      const themeToggleBtn = document.getElementById("theme-toggle");
+      if (themeToggleBtn) {
+        themeToggleBtn.addEventListener("click", () => {
+          const html = document.documentElement;
+          if (html.classList.contains("dark")) {
+            html.classList.remove("dark");
+            localStorage.setItem("color-theme", "light");
+          } else {
+            html.classList.add("dark");
+            localStorage.setItem("color-theme", "dark");
+          }
+        });
+      }
     });
-    </script>
+
+    // Toast bildirimi
+    function showToast(message = "İşlem tamamlandı", type = "success") {
+      const colors = {
+        success: "text-green-500 bg-green-100 dark:bg-green-800 dark:text-green-200",
+        error: "text-red-500 bg-red-100 dark:bg-red-800 dark:text-red-200",
+        warning: "text-yellow-500 bg-yellow-100 dark:bg-yellow-800 dark:text-yellow-200",
+        info: "text-blue-500 bg-blue-100 dark:bg-blue-800 dark:text-blue-200",
+      };
+
+      const icons = {
+        success: "✅",
+        error: "❌",
+        warning: "⚠️",
+        info: "ℹ️",
+      };
+
+      const toast = document.createElement("div");
+      toast.className =
+        "flex items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 animate-fade-in";
+      toast.innerHTML = `
+        <div class="inline-flex items-center justify-center w-8 h-8 rounded-lg ${colors[type] || colors.info}">
+          ${icons[type] || icons.info}
+        </div>
+        <div class="ms-3 text-sm font-normal">${message}</div>
+        <button type="button" class="ms-auto text-gray-400 hover:text-gray-900 dark:hover:text-white" onclick="this.parentElement.remove()">✖️</button>
+      `;
+      document.getElementById("toast-container").appendChild(toast);
+      setTimeout(() => toast.remove(), 4000);
+    }
+
+    // Django messages
+    {% if messages %}
+      {% for message in messages %}
+        showToast("{{ message|escapejs }}", "{{ message.tags }}");
+      {% endfor %}
+    {% endif %}
+  </script>
+
+  <style>
+    /* Küçük animasyon */
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fade-in 0.3s ease-in-out;
+    }
+  </style>
+
 </body>
 </html>
